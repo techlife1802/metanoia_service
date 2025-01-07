@@ -47,16 +47,36 @@ public class UserService {
 
     public UserDetailsDto getUserFieldDetails(String userId) {
         User user = userRepository.findByUsername(userId);
+        if(user!=null) {
+            List<String> fields = Optional.ofNullable(user.getFields())
+                    .filter(str -> !str.isEmpty())
+                    .map(str -> Arrays.stream(str.split(","))
+                            .collect(Collectors.toList()))
+                    .orElseGet(Arrays::asList);
 
-        List<String> fields = Optional.ofNullable(user.getFields())
-                .filter(str -> !str.isEmpty())
-                .map(str -> Arrays.stream(str.split(","))
-                        .collect(Collectors.toList()))
-                .orElseGet(Arrays::asList);
+            return UserDetailsDto.builder().userName(userId)
+                    .fields(fields)
+                    .build();
+        }
+        else return UserDetailsDto.builder().build();
+    }
 
-        return UserDetailsDto.builder().userName(userId)
-                .fields(fields)
-                .build();
+    public UserDetailsDto getUserByUserName(String userName) {
+        User user = userRepository.findByUsername(userName);
+        if (user != null) {
+            User userFromDb = userRepository.findByUsername(userName);
+            return UserDetailsDto.builder()
+                    .userName(userFromDb.getUsername())
+                    .fields(Optional.ofNullable(user.getFields())
+                            .filter(str -> !str.isEmpty())
+                            .map(str -> Arrays.stream(str.split(","))
+                                    .collect(Collectors.toList()))
+                            .orElseGet(Arrays::asList))
+                    .accessLevel(userFromDb.getAccessLevel())
+                    .build();
+        } else {
+            throw new RuntimeException("User Not found");
+        }
     }
 
     public void updateUserDetails(UserEntryDto userEntryDto) {

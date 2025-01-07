@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -18,11 +19,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/create-user")
-    public void createUser(@RequestBody User user) {
-        User encodeduser = User.builder().password(user.getPassword())
-                .fields(user.getFields())
-                .accessLevel(user.getAccessLevel())
-                .username(user.getUsername()).build();
+    public void createUser(@RequestBody UserEntryDto userEntryDto) {
+        User user = User.builder().password(userEntryDto.getPassword())
+                .fields(Optional.of(userEntryDto.getFields())
+                        .filter(list -> !list.isEmpty())
+                        .map(list -> String.join(",", list))
+                        .orElse(""))
+                .accessLevel(userEntryDto.getAccessLevel())
+                .username(userEntryDto.getUserName()).build();
         userService.saveUserDetails(user);
     }
 
