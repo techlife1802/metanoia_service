@@ -1,4 +1,4 @@
-CREATE TABLE users (
+--CREATE TABLE users (
     username VARCHAR(50) PRIMARY KEY,
     access_level VARCHAR(20),
     fields TEXT,
@@ -6,7 +6,7 @@ CREATE TABLE users (
 );
 
 
-CREATE TABLE shipment_details (
+---CREATE TABLE shipment_details (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     commodity VARCHAR(255) NULL,
     port_of_loading VARCHAR(255) NULL,
@@ -71,5 +71,5 @@ CREATE TABLE shipment_details (
     updated_by VARCHAR(255) NULL
 );
 
-INSERT INTO users (username, access_level, fields, password)
+--INSERT INTO users (username, access_level, fields, password)
 VALUES ('test@gmail.com','admin', '[ "commodity", "forwarder", "bookingNumber", "emptyContainerReceived", "icd", "destination", "portOfLoading", "buyerClaimAmount", "supplierLmePercentage" ]','123456');
