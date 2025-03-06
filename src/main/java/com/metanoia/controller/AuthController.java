@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class AuthController {
 
-    public static final String TOKEN = "Token: ";
-
     @Autowired
     private AuthService authService;
 
@@ -26,7 +24,7 @@ public class AuthController {
             log.info("User - {} trying to login ",loginRequest.getUserName());
             String token = authService.authenticate(loginRequest.getUserName(), loginRequest.getPassword());
             log.info("User logged in success:: {}",loginRequest.getUserName());
-            return ResponseEntity.ok().body(TOKEN + token);
+            return ResponseEntity.ok().body(token);
         } catch (RuntimeException e) {
             log.error("User - {} failed to login :: {}",loginRequest.getUserName(),e.getMessage());
             return ResponseEntity.status(401).body(e.getMessage());

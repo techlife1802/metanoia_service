@@ -3,7 +3,7 @@ package com.metanoia.model;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -73,8 +73,8 @@ public class ShipmentEntryRequest {
     private boolean buyerClaimSettled;
     private double buyerClaimAmount;
 
-    private LocalDate createdDate;
-    private LocalDate updatedDate;
+    private String createdDate;
+    private String updatedDate;
     private String updatedBy;
 
 }

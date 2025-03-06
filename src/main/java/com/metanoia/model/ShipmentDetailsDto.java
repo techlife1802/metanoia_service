@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Setter
 @Builder
+@ToString
 public class ShipmentDetailsDto {
 
     private String commodity;
@@ -72,7 +73,6 @@ public class ShipmentDetailsDto {
     private boolean buyerClaimShortage;
     private boolean buyerClaimSettled;
     private double buyerClaimAmount;
-
     private LocalDate createdDate;
     private LocalDate updatedDate;
 

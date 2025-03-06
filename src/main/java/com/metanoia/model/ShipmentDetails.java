@@ -1,13 +1,10 @@
 package com.metanoia.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "shipment_details")
@@ -15,10 +12,11 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ShipmentDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private Long id;
 
     private String commodity;
@@ -103,7 +101,7 @@ public class ShipmentDetails {
     private String supplierPaymentTerms;
 
     @Column(name = "supplier_payment_date")
-    private LocalDate supplierPaymentDate;
+    private LocalDateTime supplierPaymentDate;
 
     @Column(name = "supplier_claim")
     private boolean supplierClaim;
@@ -142,7 +140,7 @@ public class ShipmentDetails {
     private boolean invoiceGenerated;
 
     @Column(name = "invoice_date")
-    private LocalDate invoiceDate;
+    private LocalDateTime invoiceDate;
 
     @Column(name = "buyer_lme_rate")
     private double buyerLmeRate;
@@ -169,10 +167,10 @@ public class ShipmentDetails {
     private boolean salesInvoiceShared;
 
     @Column(name = "payment_credit_date")
-    private LocalDate paymentCreditDate;
+    private LocalDateTime paymentCreditDate;
 
     @Column(name = "expected_date_of_departure")
-    private LocalDate expectedDateOfDeparture;
+    private LocalDateTime expectedDateOfDeparture;
 
     @Column(name = "bl_courier")
     private String blCourier;
@@ -181,7 +179,7 @@ public class ShipmentDetails {
     private String blRequirement;
 
     @Column(name = "expected_date_of_arrival")
-    private LocalDate expectedDateOfArrival;
+    private LocalDateTime expectedDateOfArrival;
 
     @Column(name = "buyer_claim_shortage")
     private boolean buyerClaimShortage;
@@ -193,10 +191,10 @@ public class ShipmentDetails {
     private double buyerClaimAmount;
 
     @Column(name = "created_date")
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @Column(name = "updated_date")
-    private LocalDate updatedDate;
+    private LocalDateTime updatedDate;
 
     @Column(name = "updated_by")
     private String updatedBy;

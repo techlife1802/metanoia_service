@@ -7,7 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,7 +144,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setContainerStatus((String) value);
                 break;
             case "created_date":
-                shipmentDetails.setCreatedDate((LocalDate) value);
+                shipmentDetails.setCreatedDate((LocalDateTime) value);
                 break;
             case "custom_clearance":
                 shipmentDetails.setCustomClearance((String) value);
@@ -162,10 +162,10 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setEmptyContainerReceived((String) value);
                 break;
             case "expected_date_of_arrival":
-                shipmentDetails.setExpectedDateOfArrival((LocalDate) value);
+                shipmentDetails.setExpectedDateOfArrival((LocalDateTime) value);
                 break;
             case "expected_date_of_departure":
-                shipmentDetails.setExpectedDateOfDeparture((LocalDate) value);
+                shipmentDetails.setExpectedDateOfDeparture((LocalDateTime) value);
                 break;
             case "forwarder":
                 shipmentDetails.setForwarder((String) value);
@@ -177,7 +177,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setIcd((String) value);
                 break;
             case "invoice_date":
-                shipmentDetails.setInvoiceDate((LocalDate) value);
+                shipmentDetails.setInvoiceDate((LocalDateTime) value);
                 break;
             case "invoice_generated":
                 shipmentDetails.setInvoiceGenerated((Boolean) value);
@@ -200,7 +200,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setMaterialStatus((String) value);
                 break;
             case "payment_credit_date":
-                shipmentDetails.setPaymentCreditDate((LocalDate) value);
+                shipmentDetails.setPaymentCreditDate((LocalDateTime) value);
                 break;
             case "port_of_loading":
                 shipmentDetails.setPortOfLoading((String) value);
@@ -245,13 +245,13 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setSupplierName((String) value);
                 break;
             case "supplier_payment_date":
-                shipmentDetails.setSupplierPaymentDate((LocalDate) value);
+                shipmentDetails.setSupplierPaymentDate((LocalDateTime) value);
                 break;
             case "supplier_payment_terms":
                 shipmentDetails.setSupplierPaymentTerms((String) value);
                 break;
             case "updated_date":
-                shipmentDetails.setUpdatedDate((LocalDate) value);
+                shipmentDetails.setUpdatedDate((LocalDateTime) value);
                 break;
             case "vgm_filled":
                 shipmentDetails.setVgmFilled((String) value);

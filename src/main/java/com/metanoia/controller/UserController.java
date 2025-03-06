@@ -30,9 +30,9 @@ public class UserController {
         userService.saveUserDetails(user);
     }
 
-    @PostMapping("/get-user-field-details")
-    public UserDetailsDto getUserFieldDetails(@RequestBody UserEntryDto userRequest) {
-        return userService.getUserFieldDetails(userRequest.getUserName());
+    @GetMapping("/get-user-field-details/{userName}")
+    public UserDetailsDto getUserFieldDetails(@PathVariable String userName) {
+        return userService.getUserFieldDetails(userName);
     }
 
     @PostMapping("/update-user-details")
