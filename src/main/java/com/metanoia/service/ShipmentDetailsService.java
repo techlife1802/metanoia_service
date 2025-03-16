@@ -50,19 +50,19 @@ public class ShipmentDetailsService {
                 .BlInstructionFilled(Optional.ofNullable(request.getBlInstructionFilled()).orElse(""))
                 .draftGenerated(Optional.ofNullable(request.getDraftGenerated()).orElse(""))
                 .blDraftStatus(Optional.ofNullable(request.getBlDraftStatus()).orElse(""))
-                .billLandingNumber(Optional.ofNullable(request.getBillLandingNumber()).orElse(""))
-                .loadingPicsShared(Optional.ofNullable(request.getLoadingPicsShared()).orElse(""))
+                .billLandingNumber(Optional.ofNullable(request.getBillLandingNumber()).orElse(0))
+                .loadingPicsShared(Optional.ofNullable(request.getLoadingPicsShared()).orElse(Boolean.FALSE))
 
                 // Primitive types with default values
-                .freightPaid(request.isFreightPaid())
-                .sampleReportAvailable(request.isSampleReportAvailable())
-                .loadingPhotosShared(request.isLoadingPhotosShared())
-                .salesInvoiceShared(request.isSalesInvoiceShared())
-                .invoiceGenerated(request.isInvoiceGenerated())
-                .buyerClaimShortage(request.isBuyerClaimShortage())
-                .buyerClaimSettled(request.isBuyerClaimSettled())
-                .supplierClaim(request.isSupplierClaim())
-                .supplierClaimSettled(request.isSupplierClaimSettled())
+                .freightPaid(request.getFreightPaid())
+                .sampleReportAvailable(request.getSampleReportAvailable())
+                .loadingPhotosShared(request.getLoadingPhotosShared())
+                .salesInvoiceShared(request.getSalesInvoiceShared())
+                .invoiceGenerated(request.getInvoiceGenerated())
+                .buyerClaimShortage(request.getBuyerClaimShortage())
+                .buyerClaimSettled(request.getBuyerClaimSettled())
+                .supplierClaim(request.getSupplierClaim())
+                .supplierClaimSettled(request.getSupplierClaimSettled())
 
                 // Handling null for Strings and numeric values
                 .materialStatus(Optional.ofNullable(request.getMaterialStatus()).orElse(""))
@@ -87,8 +87,8 @@ public class ShipmentDetailsService {
                 .additionalCharges(Optional.of(request.getAdditionalCharges()).orElse(0.0))
                 .discount(Optional.of(request.getDiscount()).orElse(0.0))
                 .buyerClaimAmount(Optional.of(request.getBuyerClaimAmount()).orElse(0.0))
-                .blCourier(Optional.ofNullable(request.getBlCourier()).orElse(""))
-                .blRequirement(Optional.ofNullable(request.getBlRequirement()).orElse(""))
+                .blCourier(Optional.ofNullable(request.getBlCourier()).orElse(Boolean.FALSE))
+                .blRequirement(Optional.ofNullable(request.getBlRequirement()).orElse(Boolean.FALSE))
 
                 // Parsing dates safely
                 .supplierPaymentDate(convertDateString(request.getSupplierPaymentDate()))

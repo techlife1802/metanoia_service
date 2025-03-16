@@ -17,7 +17,7 @@ public class ShipmentDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private Long id;
+    private String id;
 
     private String commodity;
 
@@ -70,14 +70,14 @@ public class ShipmentDetails {
     private String blDraftStatus;
 
     @Column(name = "bill_landing_number")
-    private String billLandingNumber;
+    private Integer billLandingNumber;
 
     @Column(name = "loading_pics_shared")
-    private String loadingPicsShared;
+    private Boolean loadingPicsShared;
 
     // Second-level details
     @Column(name = "freight_paid")
-    private boolean freightPaid;
+    private Boolean freightPaid;
 
     @Column(name = "material_status")
     private String materialStatus;
@@ -86,16 +86,16 @@ public class ShipmentDetails {
     private String supplierName;
 
     @Column(name = "supplier_lme_percentage")
-    private double supplierLmePercentage;
+    private Double supplierLmePercentage;
 
     @Column(name = "supplier_lme_rate")
-    private double supplierLmeRate;
+    private Double supplierLmeRate;
 
     @Column(name = "supplier_final_rate")
-    private double supplierFinalRate;
+    private Double supplierFinalRate;
 
     @Column(name = "supplier_invoice_value")
-    private double supplierInvoiceValue;
+    private Double supplierInvoiceValue;
 
     @Column(name = "supplier_payment_terms")
     private String supplierPaymentTerms;
@@ -104,13 +104,13 @@ public class ShipmentDetails {
     private LocalDateTime supplierPaymentDate;
 
     @Column(name = "supplier_claim")
-    private boolean supplierClaim;
+    private Boolean supplierClaim;
 
     @Column(name = "supplier_claim_settled")
-    private boolean supplierClaimSettled;
+    private Boolean supplierClaimSettled;
 
     @Column(name = "supplier_claim_amount")
-    private double supplierClaimAmount;
+    private Double supplierClaimAmount;
 
     @Column(name = "buyer_name")
     private String buyerName;
@@ -122,49 +122,49 @@ public class ShipmentDetails {
     private String qualityOfMaterial;
 
     @Column(name = "sample_report_available")
-    private boolean sampleReportAvailable;
+    private Boolean sampleReportAvailable;
 
     @Column(name = "bl_draft")
     private String blDraft;
 
     @Column(name = "loading_photos_shared")
-    private boolean loadingPhotosShared;
+    private Boolean loadingPhotosShared;
 
     @Column(name = "buyer_lme_percentage")
-    private double buyerLmePercentage;
+    private Double buyerLmePercentage;
 
     @Column(name = "lme_fixed_status")
     private String lmeFixedStatus;
 
     @Column(name = "invoice_generated")
-    private boolean invoiceGenerated;
+    private Boolean invoiceGenerated;
 
     @Column(name = "invoice_date")
     private LocalDateTime invoiceDate;
 
     @Column(name = "buyer_lme_rate")
-    private double buyerLmeRate;
+    private Double buyerLmeRate;
 
     @Column(name = "buyer_final_rate")
-    private double buyerFinalRate;
+    private Double buyerFinalRate;
 
     @Column(name = "buyer_invoice_value")
-    private double buyerInvoiceValue;
+    private Double buyerInvoiceValue;
 
     @Column(name = "amount_credited")
-    private double amountCredited;
+    private Double amountCredited;
 
     @Column(name = "balance")
-    private double balance;
+    private Double balance;
 
     @Column(name = "additional_charges")
-    private double additionalCharges;
+    private Double additionalCharges;
 
     @Column(name = "discount")
-    private double discount;
+    private Double discount;
 
     @Column(name = "sales_invoice_shared")
-    private boolean salesInvoiceShared;
+    private Boolean salesInvoiceShared;
 
     @Column(name = "payment_credit_date")
     private LocalDateTime paymentCreditDate;
@@ -173,22 +173,22 @@ public class ShipmentDetails {
     private LocalDateTime expectedDateOfDeparture;
 
     @Column(name = "bl_courier")
-    private String blCourier;
+    private Boolean blCourier;
 
     @Column(name = "bl_requirement")
-    private String blRequirement;
+    private Boolean blRequirement;
 
     @Column(name = "expected_date_of_arrival")
     private LocalDateTime expectedDateOfArrival;
 
     @Column(name = "buyer_claim_shortage")
-    private boolean buyerClaimShortage;
+    private Boolean buyerClaimShortage;
 
     @Column(name = "buyer_claim_settled")
-    private boolean buyerClaimSettled;
+    private Boolean buyerClaimSettled;
 
     @Column(name = "buyer_claim_amount")
-    private double buyerClaimAmount;
+    private Double buyerClaimAmount;
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;

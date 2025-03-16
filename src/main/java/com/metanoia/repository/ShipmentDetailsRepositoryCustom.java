@@ -76,7 +76,7 @@ public class ShipmentDetailsRepositoryCustom {
     private void mapValueToField(ShipmentDetails shipmentDetails, String columnName, Object value) {
         switch (columnName) {
             case "id":
-                shipmentDetails.setId((Long) value);
+                shipmentDetails.setId((String)value);
                 break;
             case "bl_instruction_filled":
                 shipmentDetails.setBlInstructionFilled((String) value);
@@ -93,10 +93,10 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setBalance((Double) value);
                 break;
             case "bill_landing_number":
-                shipmentDetails.setBillLandingNumber((String) value);
+                shipmentDetails.setBillLandingNumber((Integer) value);
                 break;
             case "bl_courier":
-                shipmentDetails.setBlCourier((String) value);
+                shipmentDetails.setBlCourier((Boolean) value);
                 break;
             case "bl_draft":
                 shipmentDetails.setBlDraft((String) value);
@@ -105,7 +105,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setBlDraftStatus((String) value);
                 break;
             case "bl_requirement":
-                shipmentDetails.setBlRequirement((String) value);
+                shipmentDetails.setBlRequirement((Boolean) value);
                 break;
             case "booking_number":
                 shipmentDetails.setBookingNumber((String) value);
@@ -190,7 +190,7 @@ public class ShipmentDetailsRepositoryCustom {
                 break;
 
             case "loading_pics_shared":
-                shipmentDetails.setLoadingPicsShared((String) value);
+                shipmentDetails.setLoadingPicsShared((Boolean) value);
                 break;
 
             case "loading_status":

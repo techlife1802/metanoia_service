@@ -3,7 +3,6 @@ package com.metanoia.model;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,48 +29,48 @@ public class ShipmentEntryRequest {
     private String BlInstructionFilled;
     private String draftGenerated;
     private String blDraftStatus;
-    private String billLandingNumber;
-    private String loadingPicsShared;
+    private Integer billLandingNumber;
+    private Boolean loadingPicsShared;
 
     //second level details
-    private boolean freightPaid;
+    private Boolean freightPaid;
     private String materialStatus;
     private String supplierName;
-    private double supplierLmePercentage;
-    private double supplierLmeRate;
-    private double supplierFinalRate;
-    private double supplierInvoiceValue;
+    private Double supplierLmePercentage;
+    private Double supplierLmeRate;
+    private Double supplierFinalRate;
+    private Double supplierInvoiceValue;
     private String supplierPaymentTerms;
     private String supplierPaymentDate;
-    private boolean supplierClaim;
-    private boolean supplierClaimSettled;
-    private double supplierClaimAmount;
+    private Boolean supplierClaim;
+    private Boolean supplierClaimSettled;
+    private Double supplierClaimAmount;
     private String buyerName;
     private String consigneeName;
     private String qualityOfMaterial;
-    private boolean sampleReportAvailable;
+    private Boolean sampleReportAvailable;
     private String blDraft;
-    private boolean loadingPhotosShared;
-    private double buyerLmePercentage;
+    private Boolean loadingPhotosShared;
+    private Double buyerLmePercentage;
     private String lmeFixedStatus;
-    private boolean invoiceGenerated;
+    private Boolean invoiceGenerated;
     private String invoiceDate;
-    private double buyerLmeRate;
-    private double buyerFinalRate;
-    private double buyerInvoiceValue;
-    private double amountCredited;
-    private double balance;
-    private double additionalCharges;
-    private double discount;
-    private boolean salesInvoiceShared;
+    private Double buyerLmeRate;
+    private Double buyerFinalRate;
+    private Double buyerInvoiceValue;
+    private Double amountCredited;
+    private Double balance;
+    private Double additionalCharges;
+    private Double discount;
+    private Boolean salesInvoiceShared;
     private String paymentCreditDate;
     private String expectedDateOfDeparture;
-    private String blCourier;
-    private String blRequirement;
+    private Boolean blCourier;
+    private Boolean blRequirement;
     private String expectedDateOfArrival;
-    private boolean buyerClaimShortage;
-    private boolean buyerClaimSettled;
-    private double buyerClaimAmount;
+    private Boolean buyerClaimShortage;
+    private Boolean buyerClaimSettled;
+    private Double buyerClaimAmount;
 
     private String createdDate;
     private String updatedDate;
