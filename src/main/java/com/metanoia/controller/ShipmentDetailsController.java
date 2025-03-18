@@ -18,13 +18,18 @@ class ShipmentDetailsController {
     @Autowired
     private ShipmentDetailsService shipmentDetailsService;
 
-    @PostMapping("/fetch-columns")
-    public List<ShipmentDetails> fetchColumns(@RequestBody List<String> columns) {
-        return shipmentDetailsService.getSpecificColumns(columns);
+    @PostMapping("/get-shipment-details/{user}")
+    public List<ShipmentDetails> fetchColumns(@PathVariable("user") String user,@RequestBody List<String> columns) {
+        return shipmentDetailsService.getShipmentEntriesSpecificColumns(user,columns);
     }
 
     @PostMapping("/add-shipment")
     public void addShipmentDetails(@RequestBody ShipmentEntryRequest request) {
         shipmentDetailsService.saveShipment(request);
+    }
+
+    @PostMapping("/update-shipment")
+    public void updateShipmentDetails(@RequestBody ShipmentEntryRequest request) {
+        shipmentDetailsService.updateShipment(request);
     }
 }

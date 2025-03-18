@@ -3,8 +3,11 @@ package com.metanoia.service;
 import com.metanoia.model.ShipmentDetails;
 import com.metanoia.model.ShipmentDetailsDto;
 import com.metanoia.model.ShipmentEntryRequest;
+import com.metanoia.model.User;
 import com.metanoia.repository.ShipmentDetailsRepositoryCustom;
 import com.metanoia.repository.ShipmentRepository;
+import com.metanoia.repository.UserRepository;
+import com.metanoia.util.MetanoiaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShipmentDetailsService {
@@ -25,80 +29,162 @@ public class ShipmentDetailsService {
     @Autowired
     ShipmentRepository shipmentRepository;
 
-    public List<ShipmentDetails> getSpecificColumns(List<String> columns) {
-        return shipmentDetailsRepositoryCustom.findSpecificColumns(columns);
+    @Autowired
+    UserRepository userRepository;
+
+    public List<ShipmentDetails> getShipmentEntriesSpecificColumns(String user, List<String> columns) {
+        User userData = userRepository.findByUsername(user);
+        if (userData != null && userData.getAccessLevel().equals("admin")) {
+            return shipmentRepository.findAll();
+        } else if(userData!=null && userData.getUsername()!=null){
+            return shipmentDetailsRepositoryCustom.findSpecificColumns(user, columns.stream().map(col-> MetanoiaUtil.getColumnName(ShipmentDetails.class,col)).toList());
+        }
+        else{
+            throw new RuntimeException("User not found");
+        }
     }
 
+    public void updateShipment(ShipmentEntryRequest request) {
+        Optional<ShipmentDetails> detailsOptional = shipmentRepository.findById(request.getId());
+        if (detailsOptional.isPresent()) {
+            ShipmentDetails details = detailsOptional.get();
+            details.setCommodity(Optional.ofNullable(request.getCommodity()).orElse(""));
+            details.setPortOfLoading(Optional.ofNullable(request.getPortOfLoading()).orElse(""));
+            details.setDestination(Optional.ofNullable(request.getDestination()).orElse(""));
+            details.setIcd(Optional.ofNullable(request.getIcd()).orElse(""));
+            details.setForwarder(Optional.ofNullable(request.getForwarder()).orElse(""));
+            details.setShippingLine(Optional.ofNullable(request.getShippingLine()).orElse(""));
+            details.setBookingNumber(Optional.ofNullable(request.getBookingNumber()).orElse(""));
+            details.setEmptyContainerReceived(Optional.ofNullable(request.getEmptyContainerReceived()).orElse(""));
+            details.setWeight(Optional.ofNullable(request.getWeight()).orElse(BigDecimal.ZERO));
+            details.setLoadingStatus(Optional.ofNullable(request.getLoadingStatus()).orElse(""));
+            details.setVgmFilled(Optional.ofNullable(request.getVgmFilled()).orElse(""));
+            details.setCustomClearance(Optional.ofNullable(request.getCustomClearance()).orElse(""));
+            details.setShippingBillFilled(Optional.ofNullable(request.getShippingBillFilled()).orElse(""));
+            details.setBaeReceived(Optional.ofNullable(request.getBaeReceived()).orElse(""));
+            details.setContainerStatus(Optional.ofNullable(request.getContainerStatus()).orElse(""));
+            details.setBlInstructionFilled(Optional.ofNullable(request.getBlInstructionFilled()).orElse(""));
+            details.setDraftGenerated(Optional.ofNullable(request.getDraftGenerated()).orElse(""));
+            details.setBlDraftStatus(Optional.ofNullable(request.getBlDraftStatus()).orElse(""));
+            details.setBillLandingNumber(Optional.ofNullable(request.getBillLandingNumber()).orElse(0));
+            details.setLoadingPicsShared(Optional.ofNullable(request.getLoadingPicsShared()).orElse(Boolean.FALSE));
+            details.setFreightPaid(request.getFreightPaid());
+            details.setSampleReportAvailable(request.getSampleReportAvailable());
+            details.setLoadingPhotosShared(request.getLoadingPhotosShared());
+            details.setSalesInvoiceShared(request.getSalesInvoiceShared());
+            details.setInvoiceGenerated(request.getInvoiceGenerated());
+            details.setBuyerClaimShortage(request.getBuyerClaimShortage());
+            details.setBuyerClaimSettled(request.getBuyerClaimSettled());
+            details.setSupplierClaim(request.getSupplierClaim());
+            details.setSupplierClaimSettled(request.getSupplierClaimSettled());
+            details.setMaterialStatus(Optional.ofNullable(request.getMaterialStatus()).orElse(""));
+            details.setSupplierName(Optional.ofNullable(request.getSupplierName()).orElse(""));
+            details.setSupplierLmePercentage(Optional.ofNullable(request.getSupplierLmePercentage()).orElse(0.0));
+            details.setSupplierLmeRate(Optional.ofNullable(request.getSupplierLmeRate()).orElse(0.0));
+            details.setSupplierFinalRate(Optional.ofNullable(request.getSupplierFinalRate()).orElse(0.0));
+            details.setSupplierInvoiceValue(Optional.ofNullable(request.getSupplierInvoiceValue()).orElse(0.0));
+            details.setSupplierPaymentTerms(Optional.ofNullable(request.getSupplierPaymentTerms()).orElse(""));
+            details.setSupplierClaimAmount(Optional.ofNullable(request.getSupplierClaimAmount()).orElse(0.0));
+            details.setBuyerName(Optional.ofNullable(request.getBuyerName()).orElse(""));
+            details.setConsigneeName(Optional.ofNullable(request.getConsigneeName()).orElse(""));
+            details.setQualityOfMaterial(Optional.ofNullable(request.getQualityOfMaterial()).orElse(""));
+            details.setBlDraft(Optional.ofNullable(request.getBlDraft()).orElse(""));
+            details.setBuyerLmePercentage(Optional.ofNullable(request.getBuyerLmePercentage()).orElse(0.0));
+            details.setLmeFixedStatus(Optional.ofNullable(request.getLmeFixedStatus()).orElse(""));
+            details.setBuyerLmeRate(Optional.ofNullable(request.getBuyerLmeRate()).orElse(0.0));
+            details.setBuyerFinalRate(Optional.ofNullable(request.getBuyerFinalRate()).orElse(0.0));
+            details.setBuyerInvoiceValue(Optional.ofNullable(request.getBuyerInvoiceValue()).orElse(0.0));
+            details.setAmountCredited(Optional.ofNullable(request.getAmountCredited()).orElse(0.0));
+            details.setBalance(Optional.ofNullable(request.getBalance()).orElse(0.0));
+            details.setAdditionalCharges(Optional.ofNullable(request.getAdditionalCharges()).orElse(0.0));
+            details.setDiscount(Optional.ofNullable(request.getDiscount()).orElse(0.0));
+            details.setBuyerClaimAmount(Optional.ofNullable(request.getBuyerClaimAmount()).orElse(0.0));
+            details.setBlCourier(Optional.ofNullable(request.getBlCourier()).orElse(Boolean.FALSE));
+            details.setBlRequirement(Optional.ofNullable(request.getBlRequirement()).orElse(Boolean.FALSE));
+            details.setSupplierPaymentDate(convertDateString(request.getSupplierPaymentDate()));
+            details.setInvoiceDate(convertDateString(request.getInvoiceDate()));
+            details.setPaymentCreditDate(convertDateString(request.getPaymentCreditDate()));
+            details.setExpectedDateOfDeparture(convertDateString(request.getExpectedDateOfDeparture()));
+            details.setExpectedDateOfArrival(convertDateString(request.getExpectedDateOfArrival()));
+            details.setCreatedDate(convertDateString(request.getCreatedDate()));
+            details.setUpdatedDate(convertDateString(request.getUpdatedDate()));
+            details.setUpdatedBy(request.getUpdatedBy());
+
+            shipmentRepository.save(details);
+        } else {
+            throw new RuntimeException("Shipment not found with id ::" + request.getId());
+        }
+    }
 
     public void saveShipment(ShipmentEntryRequest request) {
         ShipmentDetails details = ShipmentDetails.builder()
-                .commodity(Optional.ofNullable(request.getCommodity()).orElse(""))
-                .portOfLoading(Optional.ofNullable(request.getPortOfLoading()).orElse(""))
-                .destination(Optional.ofNullable(request.getDestination()).orElse(""))
-                .icd(Optional.ofNullable(request.getIcd()).orElse(""))
-                .forwarder(Optional.ofNullable(request.getForwarder()).orElse(""))
-                .shippingLine(Optional.ofNullable(request.getShippingLine()).orElse(""))
-                .bookingNumber(Optional.ofNullable(request.getBookingNumber()).orElse(""))
-                .emptyContainerReceived(Optional.ofNullable(request.getEmptyContainerReceived()).orElse(""))
-                .weight(Optional.ofNullable(request.getWeight()).orElse(BigDecimal.ZERO))
-                .loadingStatus(Optional.ofNullable(request.getLoadingStatus()).orElse(""))
-                .vgmFilled(Optional.ofNullable(request.getVgmFilled()).orElse(""))
-                .customClearance(Optional.ofNullable(request.getCustomClearance()).orElse(""))
-                .shippingBillFilled(Optional.ofNullable(request.getShippingBillFilled()).orElse(""))
-                .baeReceived(Optional.ofNullable(request.getBaeReceived()).orElse(""))
-                .containerStatus(Optional.ofNullable(request.getContainerStatus()).orElse(""))
-                .BlInstructionFilled(Optional.ofNullable(request.getBlInstructionFilled()).orElse(""))
-                .draftGenerated(Optional.ofNullable(request.getDraftGenerated()).orElse(""))
-                .blDraftStatus(Optional.ofNullable(request.getBlDraftStatus()).orElse(""))
-                .billLandingNumber(Optional.ofNullable(request.getBillLandingNumber()).orElse(0))
-                .loadingPicsShared(Optional.ofNullable(request.getLoadingPicsShared()).orElse(Boolean.FALSE))
+                .commodity(Optional.ofNullable(request).map(ShipmentEntryRequest::getCommodity).orElse(""))
+                .portOfLoading(Optional.ofNullable(request).map(ShipmentEntryRequest::getPortOfLoading).orElse(""))
+                .destination(Optional.ofNullable(request).map(ShipmentEntryRequest::getDestination).orElse(""))
+                .icd(Optional.ofNullable(request).map(ShipmentEntryRequest::getIcd).orElse(""))
+                .forwarder(Optional.ofNullable(request).map(ShipmentEntryRequest::getForwarder).orElse(""))
+                .shippingLine(Optional.ofNullable(request).map(ShipmentEntryRequest::getShippingLine).orElse(""))
+                .bookingNumber(Optional.ofNullable(request).map(ShipmentEntryRequest::getBookingNumber).orElse(""))
+                .emptyContainerReceived(Optional.ofNullable(request).map(ShipmentEntryRequest::getEmptyContainerReceived).orElse(""))
+                .weight(Optional.ofNullable(request).map(ShipmentEntryRequest::getWeight).orElse(BigDecimal.ZERO))
+                .loadingStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getLoadingStatus).orElse(""))
+                .vgmFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getVgmFilled).orElse(""))
+                .customClearance(Optional.ofNullable(request).map(ShipmentEntryRequest::getCustomClearance).orElse(""))
+                .shippingBillFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getShippingBillFilled).orElse(""))
+                .baeReceived(Optional.ofNullable(request).map(ShipmentEntryRequest::getBaeReceived).orElse(""))
+                .containerStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getContainerStatus).orElse(""))
+                .BlInstructionFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlInstructionFilled).orElse(""))
+                .draftGenerated(Optional.ofNullable(request).map(ShipmentEntryRequest::getDraftGenerated).orElse(""))
+                .blDraftStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlDraftStatus).orElse(""))
+                .billLandingNumber(Optional.ofNullable(request).map(ShipmentEntryRequest::getBillLandingNumber).orElse(0))
+                .loadingPicsShared(Optional.ofNullable(request).map(ShipmentEntryRequest::getLoadingPicsShared).orElse(Boolean.FALSE))
 
                 // Primitive types with default values
-                .freightPaid(request.getFreightPaid())
-                .sampleReportAvailable(request.getSampleReportAvailable())
-                .loadingPhotosShared(request.getLoadingPhotosShared())
-                .salesInvoiceShared(request.getSalesInvoiceShared())
-                .invoiceGenerated(request.getInvoiceGenerated())
-                .buyerClaimShortage(request.getBuyerClaimShortage())
-                .buyerClaimSettled(request.getBuyerClaimSettled())
-                .supplierClaim(request.getSupplierClaim())
-                .supplierClaimSettled(request.getSupplierClaimSettled())
+                .freightPaid(Optional.ofNullable(request).map(ShipmentEntryRequest::getFreightPaid).orElse(false))
+                .sampleReportAvailable(Optional.ofNullable(request).map(ShipmentEntryRequest::getSampleReportAvailable).orElse(false))
+                .loadingPhotosShared(Optional.ofNullable(request).map(ShipmentEntryRequest::getLoadingPhotosShared).orElse(false))
+                .salesInvoiceShared(Optional.ofNullable(request).map(ShipmentEntryRequest::getSalesInvoiceShared).orElse(false))
+                .invoiceGenerated(Optional.ofNullable(request).map(ShipmentEntryRequest::getInvoiceGenerated).orElse(false))
+                .buyerClaimShortage(Optional.ofNullable(request).map(ShipmentEntryRequest::getBuyerClaimShortage).orElse(false))
+                .buyerClaimSettled(Optional.ofNullable(request).map(ShipmentEntryRequest::getBuyerClaimSettled).orElse(false))
+                .supplierClaim(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierClaim).orElse(false))
+                .supplierClaimSettled(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierClaimSettled).orElse(false))
 
                 // Handling null for Strings and numeric values
-                .materialStatus(Optional.ofNullable(request.getMaterialStatus()).orElse(""))
-                .supplierName(Optional.ofNullable(request.getSupplierName()).orElse(""))
-                .supplierLmePercentage(Optional.of(request.getSupplierLmePercentage()).orElse(0.0))
-                .supplierLmeRate(Optional.of(request.getSupplierLmeRate()).orElse(0.0))
-                .supplierFinalRate(Optional.of(request.getSupplierFinalRate()).orElse(0.0))
-                .supplierInvoiceValue(Optional.of(request.getSupplierInvoiceValue()).orElse(0.0))
-                .supplierPaymentTerms(Optional.ofNullable(request.getSupplierPaymentTerms()).orElse(""))
-                .supplierClaimAmount(Optional.of(request.getSupplierClaimAmount()).orElse(0.0))
-                .buyerName(Optional.ofNullable(request.getBuyerName()).orElse(""))
-                .consigneeName(Optional.ofNullable(request.getConsigneeName()).orElse(""))
-                .qualityOfMaterial(Optional.ofNullable(request.getQualityOfMaterial()).orElse(""))
-                .blDraft(Optional.ofNullable(request.getBlDraft()).orElse(""))
-                .buyerLmePercentage(Optional.of(request.getBuyerLmePercentage()).orElse(0.0))
-                .lmeFixedStatus(Optional.ofNullable(request.getLmeFixedStatus()).orElse(""))
-                .buyerLmeRate(Optional.of(request.getBuyerLmeRate()).orElse(0.0))
-                .buyerFinalRate(Optional.of(request.getBuyerFinalRate()).orElse(0.0))
-                .buyerInvoiceValue(Optional.of(request.getBuyerInvoiceValue()).orElse(0.0))
-                .amountCredited(Optional.of(request.getAmountCredited()).orElse(0.0))
-                .balance(Optional.of(request.getBalance()).orElse(0.0))
-                .additionalCharges(Optional.of(request.getAdditionalCharges()).orElse(0.0))
-                .discount(Optional.of(request.getDiscount()).orElse(0.0))
-                .buyerClaimAmount(Optional.of(request.getBuyerClaimAmount()).orElse(0.0))
-                .blCourier(Optional.ofNullable(request.getBlCourier()).orElse(Boolean.FALSE))
-                .blRequirement(Optional.ofNullable(request.getBlRequirement()).orElse(Boolean.FALSE))
+                .materialStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getMaterialStatus).orElse(""))
+                .supplierName(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierName).orElse(""))
+                .supplierLmePercentage(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierLmePercentage).orElse(0.0))
+                .supplierLmeRate(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierLmeRate).orElse(0.0))
+                .supplierFinalRate(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierFinalRate).orElse(0.0))
+                .supplierInvoiceValue(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierInvoiceValue).orElse(0.0))
+                .supplierPaymentTerms(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierPaymentTerms).orElse(""))
+                .supplierClaimAmount(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierClaimAmount).orElse(0.0))
+                .buyerName(Optional.ofNullable(request).map(ShipmentEntryRequest::getBuyerName).orElse(""))
+                .consigneeName(Optional.ofNullable(request).map(ShipmentEntryRequest::getConsigneeName).orElse(""))
+                .qualityOfMaterial(Optional.ofNullable(request).map(ShipmentEntryRequest::getQualityOfMaterial).orElse(""))
+                .blDraft(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlDraft).orElse(""))
+                .buyerLmePercentage(Optional.ofNullable(request).map(ShipmentEntryRequest::getBuyerLmePercentage).orElse(0.0))
+                .lmeFixedStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getLmeFixedStatus).orElse(""))
+                .buyerLmeRate(Optional.ofNullable(request).map(ShipmentEntryRequest::getBuyerLmeRate).orElse(0.0))
+                .buyerFinalRate(Optional.ofNullable(request).map(ShipmentEntryRequest::getBuyerFinalRate).orElse(0.0))
+                .buyerInvoiceValue(Optional.ofNullable(request).map(ShipmentEntryRequest::getBuyerInvoiceValue).orElse(0.0))
+                .amountCredited(Optional.ofNullable(request).map(ShipmentEntryRequest::getAmountCredited).orElse(0.0))
+                .balance(Optional.ofNullable(request).map(ShipmentEntryRequest::getBalance).orElse(0.0))
+                .additionalCharges(Optional.ofNullable(request).map(ShipmentEntryRequest::getAdditionalCharges).orElse(0.0))
+                .discount(Optional.ofNullable(request).map(ShipmentEntryRequest::getDiscount).orElse(0.0))
+                .buyerClaimAmount(Optional.ofNullable(request).map(ShipmentEntryRequest::getBuyerClaimAmount).orElse(0.0))
+                .blCourier(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlCourier).orElse(Boolean.FALSE))
+                .blRequirement(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlRequirement).orElse(Boolean.FALSE))
 
                 // Parsing dates safely
-                .supplierPaymentDate(convertDateString(request.getSupplierPaymentDate()))
-                .invoiceDate(convertDateString(request.getInvoiceDate()))
-                .paymentCreditDate(convertDateString(request.getPaymentCreditDate()))
-                .expectedDateOfDeparture(convertDateString(request.getExpectedDateOfDeparture()))
-                .expectedDateOfArrival(convertDateString(request.getExpectedDateOfArrival()))
-                .createdDate(convertDateString(request.getCreatedDate()))
-                .updatedDate(convertDateString(request.getCreatedDate()))
-                .updatedBy(request.getUpdatedBy())
+                .supplierPaymentDate(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getSupplierPaymentDate).orElse(null)))
+                .invoiceDate(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getInvoiceDate).orElse(null)))
+                .paymentCreditDate(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getPaymentCreditDate).orElse(null)))
+                .expectedDateOfDeparture(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getExpectedDateOfDeparture).orElse(null)))
+                .expectedDateOfArrival(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getExpectedDateOfArrival).orElse(null)))
+                .createdDate(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getCreatedDate).orElse(null)))
+                .updatedDate(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getCreatedDate).orElse(null)))
+                .updatedBy(Optional.ofNullable(request).map(ShipmentEntryRequest::getUpdatedBy).orElse(null))
                 .build();
 
         shipmentRepository.save(details);

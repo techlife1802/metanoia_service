@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Builder
 public class ShipmentEntryRequest {
 
+    private String id;
     private String commodity;
     private String portOfLoading;
     private String destination;

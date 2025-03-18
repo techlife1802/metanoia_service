@@ -15,6 +15,7 @@
        forwarder VARCHAR(255),
        shipping_line VARCHAR(255),
        booking_number VARCHAR(255),
+       seal_number VARCHAR(255),
        empty_container_received VARCHAR(255),
        weight DECIMAL(19,2),
        loading_status VARCHAR(255),

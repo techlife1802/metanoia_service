@@ -19,16 +19,19 @@ public class ShipmentDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
+    @Column(name = "commodity")
     private String commodity;
 
     @Column(name = "port_of_loading")
     private String portOfLoading;
 
+    @Column(name = "destination")
     private String destination;
 
     @Column(name = "icd")
     private String icd;
 
+    @Column(name = "forwarder")
     private String forwarder;
 
     @Column(name = "shipping_line")
@@ -37,9 +40,13 @@ public class ShipmentDetails {
     @Column(name = "booking_number")
     private String bookingNumber;
 
+    @Column(name = "seal_number")
+    private String sealNumber;
+
     @Column(name = "empty_container_received")
     private String emptyContainerReceived;
 
+    @Column(name = "weight")
     private BigDecimal weight;
 
     @Column(name = "loading_status")

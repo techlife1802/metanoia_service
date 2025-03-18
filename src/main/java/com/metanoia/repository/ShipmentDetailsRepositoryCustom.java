@@ -24,9 +24,12 @@ public class ShipmentDetailsRepositoryCustom {
      * @param columnNames List of column names to fetch from the database.
      * @return A list of ShipmentDetails objects with only the requested columns populated.
      */
-    public List<ShipmentDetails> findSpecificColumns(List<String> columnNames) {
+    public List<ShipmentDetails> findSpecificColumns(String user,List<String> columnNames) {
         // Build the dynamic SQL query to select the requested columns
+
+
         StringBuilder sql = new StringBuilder("SELECT ");
+        sql.append("id, ");
 
         // Append each column to the SELECT part of the SQL query
         for (int i = 0; i < columnNames.size(); i++) {
@@ -49,11 +52,11 @@ public class ShipmentDetailsRepositoryCustom {
         // Loop over each result row and map it to ShipmentDetails
         for (Object[] row : results) {
             ShipmentDetails shipmentDetails = new ShipmentDetails();
-
+            shipmentDetails.setId(row[0].toString());
             // Map each row to the corresponding fields in ShipmentDetails
             for (int i = 0; i < columnNames.size(); i++) {
                 String columnName = columnNames.get(i);
-                Object value = row[i];
+                Object value = row[i+1];
 
                 // Map the values to the correct field in ShipmentDetails based on column name
                 mapValueToField(shipmentDetails, columnName, value);
@@ -77,6 +80,9 @@ public class ShipmentDetailsRepositoryCustom {
         switch (columnName) {
             case "id":
                 shipmentDetails.setId((String)value);
+                break;
+            case "seal_number":
+                shipmentDetails.setSealNumber((String) value);
                 break;
             case "bl_instruction_filled":
                 shipmentDetails.setBlInstructionFilled((String) value);
@@ -262,8 +268,6 @@ public class ShipmentDetailsRepositoryCustom {
             case "updated_by":
                 shipmentDetails.setUpdatedBy((String) value);
                 break;
-
-
             default:
                 throw new IllegalArgumentException("Unknown column: " + columnName);
         }
