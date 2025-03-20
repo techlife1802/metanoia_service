@@ -1,7 +1,6 @@
 package com.metanoia.service;
 
 import com.metanoia.model.ShipmentDetails;
-import com.metanoia.model.ShipmentDetailsDto;
 import com.metanoia.model.ShipmentEntryRequest;
 import com.metanoia.model.User;
 import com.metanoia.repository.ShipmentDetailsRepositoryCustom;
@@ -12,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ShipmentDetailsService {
@@ -36,11 +32,10 @@ public class ShipmentDetailsService {
         User userData = userRepository.findByUsername(user);
         if (userData != null && userData.getAccessLevel().equals("admin")) {
             return shipmentRepository.findAll();
-        } else if(userData!=null && userData.getUsername()!=null){
-            return shipmentDetailsRepositoryCustom.findSpecificColumns(user, columns.stream().map(col-> MetanoiaUtil.getColumnName(ShipmentDetails.class,col)).toList());
-        }
-        else{
-            throw new RuntimeException("User not found");
+        } else if (userData != null && userData.getUsername() != null) {
+            return shipmentDetailsRepositoryCustom.findSpecificColumns(user, columns.stream().map(col -> MetanoiaUtil.getColumnName(ShipmentDetails.class, col)).toList());
+        } else {
+            throw new RuntimeException("User not found"+user);
         }
     }
 
@@ -106,6 +101,9 @@ public class ShipmentDetailsService {
             details.setPaymentCreditDate(convertDateString(request.getPaymentCreditDate()));
             details.setExpectedDateOfDeparture(convertDateString(request.getExpectedDateOfDeparture()));
             details.setExpectedDateOfArrival(convertDateString(request.getExpectedDateOfArrival()));
+            details.setContainerNo(Optional.ofNullable(request.getContainerNo()).orElse(""));
+            details.setSealNumber(Optional.ofNullable(request.getSealNumber()).orElse(""));
+            details.setBlInstructionFilled(Optional.ofNullable(request.getBlInstructionFilled()).orElse(""));
             details.setCreatedDate(convertDateString(request.getCreatedDate()));
             details.setUpdatedDate(convertDateString(request.getUpdatedDate()));
             details.setUpdatedBy(request.getUpdatedBy());
@@ -133,9 +131,12 @@ public class ShipmentDetailsService {
                 .shippingBillFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getShippingBillFilled).orElse(""))
                 .baeReceived(Optional.ofNullable(request).map(ShipmentEntryRequest::getBaeReceived).orElse(""))
                 .containerStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getContainerStatus).orElse(""))
-                .BlInstructionFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlInstructionFilled).orElse(""))
+                .blInstructionFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlInstructionFilled).orElse(""))
                 .draftGenerated(Optional.ofNullable(request).map(ShipmentEntryRequest::getDraftGenerated).orElse(""))
                 .blDraftStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlDraftStatus).orElse(""))
+                .containerNo(Optional.ofNullable(request).map(ShipmentEntryRequest::getContainerNo).orElse(""))
+                .sealNumber(Optional.ofNullable(request).map(ShipmentEntryRequest::getSealNumber).orElse(""))
+                .paymentCredited(Optional.ofNullable(request).map(ShipmentEntryRequest::getPaymentCredited).orElse(Boolean.FALSE))
                 .billLandingNumber(Optional.ofNullable(request).map(ShipmentEntryRequest::getBillLandingNumber).orElse(0))
                 .loadingPicsShared(Optional.ofNullable(request).map(ShipmentEntryRequest::getLoadingPicsShared).orElse(Boolean.FALSE))
 
@@ -190,8 +191,8 @@ public class ShipmentDetailsService {
         shipmentRepository.save(details);
     }
 
-    private LocalDateTime convertDateString(String dateString){
-        if(dateString!=null) {
+    private LocalDateTime convertDateString(String dateString) {
+        if (dateString != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             return LocalDateTime.parse(dateString, formatter);
         }

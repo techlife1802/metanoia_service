@@ -1,5 +1,6 @@
 package com.metanoia.security;
 
+import com.metanoia.model.LoginResponse;
 import com.metanoia.model.User;
 import com.metanoia.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class AuthService {
     @Autowired
     private JwtUtil tokenService;
 
-    public String authenticate(String username, String password) {
+    public LoginResponse authenticate(String username, String password) {
         User user = userRepository.findByUsername(username);
 
         if (user==null) {
@@ -24,7 +25,9 @@ public class AuthService {
             throw new RuntimeException("Invalid password");
         }
         // Generate and return token
-        return tokenService.generateToken(user.getUsername());
+        String token = tokenService.generateToken(user.getUsername());
+        return  new LoginResponse(token, user.getAccessLevel());
+
 
     }
 }

@@ -27,11 +27,14 @@ public class ShipmentEntryRequest {
     private String shippingBillFilled;
     private String baeReceived;
     private String containerStatus;
-    private String BlInstructionFilled;
     private String draftGenerated;
     private String blDraftStatus;
     private Integer billLandingNumber;
     private Boolean loadingPicsShared;
+    private String containerNo;
+    private String sealNumber;
+    private String blInstructionFilled;
+    private Boolean paymentCredited;
 
     //second level details
     private Boolean freightPaid;

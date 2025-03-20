@@ -25,6 +25,9 @@ public class ShipmentDetails {
     @Column(name = "port_of_loading")
     private String portOfLoading;
 
+    @Column(name = "container_no")
+    private String containerNo;
+
     @Column(name = "destination")
     private String destination;
 
@@ -68,7 +71,7 @@ public class ShipmentDetails {
     private String containerStatus;
 
     @Column(name = "bl_instruction_filled")
-    private String BlInstructionFilled;
+    private String blInstructionFilled;
 
     @Column(name = "draft_generated")
     private String draftGenerated;
@@ -199,6 +202,9 @@ public class ShipmentDetails {
 
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @Column(name = "payment_credited")
+    private Boolean paymentCredited;
 
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;

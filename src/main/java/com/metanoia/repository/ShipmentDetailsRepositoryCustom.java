@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,30 +80,31 @@ public class ShipmentDetailsRepositoryCustom {
     private void mapValueToField(ShipmentDetails shipmentDetails, String columnName, Object value) {
         switch (columnName) {
             case "id":
-                shipmentDetails.setId((String)value);
+                shipmentDetails.setId((String) value);
                 break;
             case "seal_number":
                 shipmentDetails.setSealNumber((String) value);
                 break;
             case "bl_instruction_filled":
                 shipmentDetails.setBlInstructionFilled((String) value);
+                break;
             case "additional_charges":
-                shipmentDetails.setAdditionalCharges((Double) value);
+                shipmentDetails.setAdditionalCharges(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "amount_credited":
-                shipmentDetails.setAmountCredited((Double) value);
+                shipmentDetails.setAmountCredited(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "bae_received":
                 shipmentDetails.setBaeReceived((String) value);
                 break;
             case "balance":
-                shipmentDetails.setBalance((Double) value);
+                shipmentDetails.setBalance(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "bill_landing_number":
-                shipmentDetails.setBillLandingNumber((Integer) value);
+                shipmentDetails.setBillLandingNumber(value != null ? Integer.parseInt(value.toString()) : null);
                 break;
             case "bl_courier":
-                shipmentDetails.setBlCourier((Boolean) value);
+                shipmentDetails.setBlCourier(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "bl_draft":
                 shipmentDetails.setBlDraft((String) value);
@@ -111,31 +113,31 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setBlDraftStatus((String) value);
                 break;
             case "bl_requirement":
-                shipmentDetails.setBlRequirement((Boolean) value);
+                shipmentDetails.setBlRequirement(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "booking_number":
                 shipmentDetails.setBookingNumber((String) value);
                 break;
             case "buyer_claim_amount":
-                shipmentDetails.setBuyerClaimAmount((Double) value);
+                shipmentDetails.setBuyerClaimAmount(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "buyer_claim_settled":
-                shipmentDetails.setBuyerClaimSettled((Boolean) value);
+                shipmentDetails.setBuyerClaimSettled(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "buyer_claim_shortage":
-                shipmentDetails.setBuyerClaimShortage((Boolean) value);
+                shipmentDetails.setBuyerClaimShortage(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "buyer_final_rate":
-                shipmentDetails.setBuyerFinalRate((Double) value);
+                shipmentDetails.setBuyerFinalRate(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "buyer_invoice_value":
-                shipmentDetails.setBuyerInvoiceValue((Double) value);
+                shipmentDetails.setBuyerInvoiceValue(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "buyer_lme_percentage":
-                shipmentDetails.setBuyerLmePercentage((Double) value);
+                shipmentDetails.setBuyerLmePercentage(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "buyer_lme_rate":
-                shipmentDetails.setBuyerLmeRate((Double) value);
+                shipmentDetails.setBuyerLmeRate(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "buyer_name":
                 shipmentDetails.setBuyerName((String) value);
@@ -150,7 +152,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setContainerStatus((String) value);
                 break;
             case "created_date":
-                shipmentDetails.setCreatedDate((LocalDateTime) value);
+                shipmentDetails.setCreatedDate(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "custom_clearance":
                 shipmentDetails.setCustomClearance((String) value);
@@ -159,7 +161,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setDestination((String) value);
                 break;
             case "discount":
-                shipmentDetails.setDiscount((Double) value);
+                shipmentDetails.setDiscount(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "draft_generated":
                 shipmentDetails.setDraftGenerated((String) value);
@@ -168,37 +170,35 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setEmptyContainerReceived((String) value);
                 break;
             case "expected_date_of_arrival":
-                shipmentDetails.setExpectedDateOfArrival((LocalDateTime) value);
+                shipmentDetails.setExpectedDateOfArrival(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "expected_date_of_departure":
-                shipmentDetails.setExpectedDateOfDeparture((LocalDateTime) value);
+                shipmentDetails.setExpectedDateOfDeparture(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "forwarder":
                 shipmentDetails.setForwarder((String) value);
                 break;
             case "freight_paid":
-                shipmentDetails.setFreightPaid((Boolean) value);
+                shipmentDetails.setFreightPaid(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "icd":
                 shipmentDetails.setIcd((String) value);
                 break;
             case "invoice_date":
-                shipmentDetails.setInvoiceDate((LocalDateTime) value);
+                shipmentDetails.setInvoiceDate(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "invoice_generated":
-                shipmentDetails.setInvoiceGenerated((Boolean) value);
+                shipmentDetails.setInvoiceGenerated(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "lme_fixed_status":
                 shipmentDetails.setLmeFixedStatus((String) value);
                 break;
             case "loading_photos_shared":
-                shipmentDetails.setLoadingPhotosShared((Boolean) value);
+                shipmentDetails.setLoadingPhotosShared(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
-
             case "loading_pics_shared":
-                shipmentDetails.setLoadingPicsShared((Boolean) value);
+                shipmentDetails.setLoadingPicsShared(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
-
             case "loading_status":
                 shipmentDetails.setLoadingStatus((String) value);
                 break;
@@ -206,7 +206,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setMaterialStatus((String) value);
                 break;
             case "payment_credit_date":
-                shipmentDetails.setPaymentCreditDate((LocalDateTime) value);
+                shipmentDetails.setPaymentCreditDate(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "port_of_loading":
                 shipmentDetails.setPortOfLoading((String) value);
@@ -215,10 +215,10 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setQualityOfMaterial((String) value);
                 break;
             case "sales_invoice_shared":
-                shipmentDetails.setSalesInvoiceShared((Boolean) value);
+                shipmentDetails.setSalesInvoiceShared(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "sample_report_available":
-                shipmentDetails.setSampleReportAvailable((Boolean) value);
+                shipmentDetails.setSampleReportAvailable(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "shipping_bill_filled":
                 shipmentDetails.setShippingBillFilled((String) value);
@@ -227,44 +227,49 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setShippingLine((String) value);
                 break;
             case "supplier_claim":
-                shipmentDetails.setSupplierClaim((Boolean) value);
+                shipmentDetails.setSupplierClaim(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "supplier_claim_amount":
-                shipmentDetails.setSupplierClaimAmount((Double) value);
+                shipmentDetails.setSupplierClaimAmount(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "supplier_claim_settled":
-                shipmentDetails.setSupplierClaimSettled((Boolean) value);
+                shipmentDetails.setSupplierClaimSettled(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "supplier_final_rate":
-                shipmentDetails.setSupplierFinalRate((Double) value);
+                shipmentDetails.setSupplierFinalRate(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "supplier_invoice_value":
-                shipmentDetails.setSupplierInvoiceValue((Double) value);
+                shipmentDetails.setSupplierInvoiceValue(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "supplier_lme_percentage":
-                shipmentDetails.setSupplierLmePercentage((Double) value);
+                shipmentDetails.setSupplierLmePercentage(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "supplier_lme_rate":
-                shipmentDetails.setSupplierLmeRate((Double) value);
+                shipmentDetails.setSupplierLmeRate(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "supplier_name":
                 shipmentDetails.setSupplierName((String) value);
                 break;
             case "supplier_payment_date":
-                shipmentDetails.setSupplierPaymentDate((LocalDateTime) value);
+                shipmentDetails.setSupplierPaymentDate(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "supplier_payment_terms":
                 shipmentDetails.setSupplierPaymentTerms((String) value);
                 break;
             case "updated_date":
-                shipmentDetails.setUpdatedDate((LocalDateTime) value);
+                shipmentDetails.setUpdatedDate(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "vgm_filled":
                 shipmentDetails.setVgmFilled((String) value);
                 break;
-            case "weight":
-                shipmentDetails.setWeight((BigDecimal) value);
+            case "container_no":
+                shipmentDetails.setContainerNo((String) value);
                 break;
+            case "weight":
+                shipmentDetails.setWeight(value != null ? new BigDecimal(value.toString()) : null);
+                break;
+            case "payment_credited":
+                shipmentDetails.setPaymentCredited(value != null ? Boolean.parseBoolean(value.toString()) : null);
             case "updated_by":
                 shipmentDetails.setUpdatedBy((String) value);
                 break;

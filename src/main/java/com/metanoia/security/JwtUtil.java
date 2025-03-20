@@ -16,7 +16,7 @@ public class JwtUtil {
     private static final String SECRET_KEY = "metanoia_key"; // Replace with your actual secret key
 
     // Token expiration time (in milliseconds)
-    private static final long JWT_EXPIRATION_MS = 10 * 60 * 1000;  // 10 minutes
+    private static final long JWT_EXPIRATION_MS = 100 * 60 * 1000;  // 10 minutes
 
     // Generate the JWT token for a given username
     public String generateToken(String username) {

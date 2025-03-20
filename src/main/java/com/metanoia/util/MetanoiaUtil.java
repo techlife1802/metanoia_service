@@ -14,7 +14,7 @@ public class MetanoiaUtil {
                 return column.name();
             }
         } catch (NoSuchFieldException e) {
-            throw new RuntimeException("No such field found in the class");
+            throw new RuntimeException("No such field found in the class: "+attributeName);
         }
         return null;
     }
