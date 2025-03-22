@@ -56,25 +56,25 @@ public class ShipmentDetails {
     private String loadingStatus;
 
     @Column(name = "vgm_filled")
-    private String vgmFilled;
+    private Boolean vgmFilled;
 
     @Column(name = "custom_clearance")
-    private String customClearance;
+    private Boolean customClearance;
 
     @Column(name = "shipping_bill_filled")
-    private String shippingBillFilled;
+    private Boolean shippingBillFilled;
 
     @Column(name = "bae_received")
-    private String baeReceived;
+    private Boolean baeReceived;
 
     @Column(name = "container_status")
     private String containerStatus;
 
     @Column(name = "bl_instruction_filled")
-    private String blInstructionFilled;
+    private Boolean blInstructionFilled;
 
     @Column(name = "draft_generated")
-    private String draftGenerated;
+    private Boolean draftGenerated;
 
     @Column(name = "bl_draft_status")
     private String blDraftStatus;
@@ -211,5 +211,8 @@ public class ShipmentDetails {
 
     @Column(name = "updated_by")
     private String updatedBy;
+
+    @Column(name = "created_by")
+    private String createdBy;
 
 }

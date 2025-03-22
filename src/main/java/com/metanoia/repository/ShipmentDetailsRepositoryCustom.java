@@ -25,7 +25,7 @@ public class ShipmentDetailsRepositoryCustom {
      * @param columnNames List of column names to fetch from the database.
      * @return A list of ShipmentDetails objects with only the requested columns populated.
      */
-    public List<ShipmentDetails> findSpecificColumns(String user,List<String> columnNames) {
+    public List<ShipmentDetails> findSpecificColumns(String user, LocalDateTime startDate, LocalDateTime endDate, List<String> columnNames) {
         // Build the dynamic SQL query to select the requested columns
 
 
@@ -39,10 +39,13 @@ public class ShipmentDetailsRepositoryCustom {
                 sql.append(", ");
             }
         }
-        sql.append(" FROM shipment_details");
+        sql.append(" FROM shipment_details WHERE created_by = :user AND created_date BETWEEN :startDate AND :endDate");
 
         // Execute the native query
         Query query = entityManager.createNativeQuery(sql.toString());
+        query.setParameter("user", user);
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
 
         // Get the result list as Object arrays (each row is an Object[])
         List<Object[]> results = query.getResultList();
@@ -57,7 +60,7 @@ public class ShipmentDetailsRepositoryCustom {
             // Map each row to the corresponding fields in ShipmentDetails
             for (int i = 0; i < columnNames.size(); i++) {
                 String columnName = columnNames.get(i);
-                Object value = row[i+1];
+                Object value = row[i + 1];
 
                 // Map the values to the correct field in ShipmentDetails based on column name
                 mapValueToField(shipmentDetails, columnName, value);
@@ -86,7 +89,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setSealNumber((String) value);
                 break;
             case "bl_instruction_filled":
-                shipmentDetails.setBlInstructionFilled((String) value);
+                shipmentDetails.setBlInstructionFilled(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "additional_charges":
                 shipmentDetails.setAdditionalCharges(value != null ? Double.parseDouble(value.toString()) : null);
@@ -95,7 +98,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setAmountCredited(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "bae_received":
-                shipmentDetails.setBaeReceived((String) value);
+                shipmentDetails.setBaeReceived(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "balance":
                 shipmentDetails.setBalance(value != null ? Double.parseDouble(value.toString()) : null);
@@ -155,7 +158,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setCreatedDate(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "custom_clearance":
-                shipmentDetails.setCustomClearance((String) value);
+                shipmentDetails.setCustomClearance(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "destination":
                 shipmentDetails.setDestination((String) value);
@@ -164,7 +167,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setDiscount(value != null ? Double.parseDouble(value.toString()) : null);
                 break;
             case "draft_generated":
-                shipmentDetails.setDraftGenerated((String) value);
+                shipmentDetails.setDraftGenerated(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "empty_container_received":
                 shipmentDetails.setEmptyContainerReceived((String) value);
@@ -221,7 +224,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setSampleReportAvailable(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "shipping_bill_filled":
-                shipmentDetails.setShippingBillFilled((String) value);
+                shipmentDetails.setShippingBillFilled(value != null ? Boolean.parseBoolean(value.toString()):null);
                 break;
             case "shipping_line":
                 shipmentDetails.setShippingLine((String) value);
@@ -260,7 +263,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setUpdatedDate(value != null ? ((Timestamp) value).toLocalDateTime() : null);
                 break;
             case "vgm_filled":
-                shipmentDetails.setVgmFilled((String) value);
+                shipmentDetails.setVgmFilled(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "container_no":
                 shipmentDetails.setContainerNo((String) value);
@@ -272,6 +275,9 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setPaymentCredited(value != null ? Boolean.parseBoolean(value.toString()) : null);
             case "updated_by":
                 shipmentDetails.setUpdatedBy((String) value);
+                break;
+            case "created_by":
+                shipmentDetails.setCreatedBy((String) value);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown column: " + columnName);

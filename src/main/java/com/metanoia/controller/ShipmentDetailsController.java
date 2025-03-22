@@ -1,8 +1,7 @@
 package com.metanoia.controller;
 
-
 import com.metanoia.model.ShipmentDetails;
-import com.metanoia.model.ShipmentDetailsDto;
+import com.metanoia.model.ShipmentDetailsUserRequest;
 import com.metanoia.model.ShipmentEntryRequest;
 import com.metanoia.service.ShipmentDetailsService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +19,10 @@ class ShipmentDetailsController {
     @Autowired
     private ShipmentDetailsService shipmentDetailsService;
 
-    @PostMapping("/get-shipment-details/{user}")
-    public List<ShipmentDetails> fetchColumns(@PathVariable("user") String user,@RequestBody List<String> columns) {
-        log.info("received request for columns: {} for user : {}",columns,user);
-        return shipmentDetailsService.getShipmentEntriesSpecificColumns(user,columns);
+    @PostMapping("/get-shipment-details")
+    public List<ShipmentDetails> fetchColumns(@RequestBody ShipmentDetailsUserRequest request) {
+        log.info("received request for shipment details ::{}", request);
+        return shipmentDetailsService.getShipmentEntriesSpecificColumns(request);
     }
 
     @PostMapping("/add-shipment")

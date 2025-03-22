@@ -19,13 +19,13 @@
        empty_container_received VARCHAR(255),
        weight DECIMAL(19,2),
        loading_status VARCHAR(255),
-       vgm_filled VARCHAR(255),
-       custom_clearance VARCHAR(255),
+       vgm_filled BOOLEAN,
+       custom_clearance Boolean,
        shipping_bill_filled VARCHAR(255),
-       bae_received VARCHAR(255),
+       bae_received BOOLEAN,
        container_status VARCHAR(255),
-       bl_instruction_filled VARCHAR(255),
-       draft_generated VARCHAR(255),
+       bl_instruction_filled BOOLEAN,
+       draft_generated BOOLEAN,
        bl_draft_status VARCHAR(255),
        bill_landing_number INT,
        loading_pics_shared BOOLEAN,
@@ -71,7 +71,8 @@
        payment_credited BOOLEAN,
        created_date DATETIME,
        updated_date DATETIME,
-       updated_by VARCHAR(255)
+       updated_by VARCHAR(255),
+       created_by VARCHAR(255)
    );
 
 

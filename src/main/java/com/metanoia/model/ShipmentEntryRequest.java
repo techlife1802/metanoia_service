@@ -22,18 +22,18 @@ public class ShipmentEntryRequest {
     private String emptyContainerReceived;
     private BigDecimal weight;
     private String loadingStatus;
-    private String vgmFilled;
-    private String customClearance;
-    private String shippingBillFilled;
-    private String baeReceived;
+    private Boolean vgmFilled;
+    private Boolean customClearance;
+    private Boolean shippingBillFilled;
+    private Boolean baeReceived;
     private String containerStatus;
-    private String draftGenerated;
+    private Boolean draftGenerated;
     private String blDraftStatus;
     private Integer billLandingNumber;
     private Boolean loadingPicsShared;
     private String containerNo;
     private String sealNumber;
-    private String blInstructionFilled;
+    private Boolean blInstructionFilled;
     private Boolean paymentCredited;
 
     //second level details
@@ -79,5 +79,6 @@ public class ShipmentEntryRequest {
     private String createdDate;
     private String updatedDate;
     private String updatedBy;
+    private String createdBy;
 
 }

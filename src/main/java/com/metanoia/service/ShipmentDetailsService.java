@@ -1,6 +1,7 @@
 package com.metanoia.service;
 
 import com.metanoia.model.ShipmentDetails;
+import com.metanoia.model.ShipmentDetailsUserRequest;
 import com.metanoia.model.ShipmentEntryRequest;
 import com.metanoia.model.User;
 import com.metanoia.repository.ShipmentDetailsRepositoryCustom;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -28,14 +30,14 @@ public class ShipmentDetailsService {
     @Autowired
     UserRepository userRepository;
 
-    public List<ShipmentDetails> getShipmentEntriesSpecificColumns(String user, List<String> columns) {
-        User userData = userRepository.findByUsername(user);
+    public List<ShipmentDetails> getShipmentEntriesSpecificColumns(ShipmentDetailsUserRequest request) {
+        User userData = userRepository.findByUsername(request.getUser());
         if (userData != null && userData.getAccessLevel().equals("admin")) {
-            return shipmentRepository.findAll();
+            return shipmentRepository.findAllByCreatedDateBetween(convertDateString(request.getStartDate()),convertDateString(request.getEndDate()));
         } else if (userData != null && userData.getUsername() != null) {
-            return shipmentDetailsRepositoryCustom.findSpecificColumns(user, columns.stream().map(col -> MetanoiaUtil.getColumnName(ShipmentDetails.class, col)).toList());
+            return shipmentDetailsRepositoryCustom.findSpecificColumns(request.getUser(), convertDateString(request.getStartDate()),convertDateString(request.getEndDate()), request.getColumns().stream().map(col -> MetanoiaUtil.getColumnName(ShipmentDetails.class, col)).toList());
         } else {
-            throw new RuntimeException("User not found"+user);
+            throw new RuntimeException("User not found"+request.getUser());
         }
     }
 
@@ -53,13 +55,13 @@ public class ShipmentDetailsService {
             details.setEmptyContainerReceived(Optional.ofNullable(request.getEmptyContainerReceived()).orElse(""));
             details.setWeight(Optional.ofNullable(request.getWeight()).orElse(BigDecimal.ZERO));
             details.setLoadingStatus(Optional.ofNullable(request.getLoadingStatus()).orElse(""));
-            details.setVgmFilled(Optional.ofNullable(request.getVgmFilled()).orElse(""));
-            details.setCustomClearance(Optional.ofNullable(request.getCustomClearance()).orElse(""));
-            details.setShippingBillFilled(Optional.ofNullable(request.getShippingBillFilled()).orElse(""));
-            details.setBaeReceived(Optional.ofNullable(request.getBaeReceived()).orElse(""));
+            details.setVgmFilled(Optional.ofNullable(request.getVgmFilled()).orElse(Boolean.FALSE));
+            details.setCustomClearance(Optional.ofNullable(request.getCustomClearance()).orElse(Boolean.FALSE));
+            details.setShippingBillFilled(Optional.ofNullable(request.getShippingBillFilled()).orElse(Boolean.FALSE));
+            details.setBaeReceived(Optional.ofNullable(request.getBaeReceived()).orElse(Boolean.FALSE));
             details.setContainerStatus(Optional.ofNullable(request.getContainerStatus()).orElse(""));
-            details.setBlInstructionFilled(Optional.ofNullable(request.getBlInstructionFilled()).orElse(""));
-            details.setDraftGenerated(Optional.ofNullable(request.getDraftGenerated()).orElse(""));
+            details.setBlInstructionFilled(Optional.ofNullable(request.getBlInstructionFilled()).orElse(Boolean.FALSE));
+            details.setDraftGenerated(Optional.ofNullable(request.getDraftGenerated()).orElse(Boolean.FALSE));
             details.setBlDraftStatus(Optional.ofNullable(request.getBlDraftStatus()).orElse(""));
             details.setBillLandingNumber(Optional.ofNullable(request.getBillLandingNumber()).orElse(0));
             details.setLoadingPicsShared(Optional.ofNullable(request.getLoadingPicsShared()).orElse(Boolean.FALSE));
@@ -103,11 +105,9 @@ public class ShipmentDetailsService {
             details.setExpectedDateOfArrival(convertDateString(request.getExpectedDateOfArrival()));
             details.setContainerNo(Optional.ofNullable(request.getContainerNo()).orElse(""));
             details.setSealNumber(Optional.ofNullable(request.getSealNumber()).orElse(""));
-            details.setBlInstructionFilled(Optional.ofNullable(request.getBlInstructionFilled()).orElse(""));
-            details.setCreatedDate(convertDateString(request.getCreatedDate()));
+            details.setBlInstructionFilled(Optional.ofNullable(request.getBlInstructionFilled()).orElse(Boolean.FALSE));
             details.setUpdatedDate(convertDateString(request.getUpdatedDate()));
             details.setUpdatedBy(request.getUpdatedBy());
-
             shipmentRepository.save(details);
         } else {
             throw new RuntimeException("Shipment not found with id ::" + request.getId());
@@ -126,13 +126,13 @@ public class ShipmentDetailsService {
                 .emptyContainerReceived(Optional.ofNullable(request).map(ShipmentEntryRequest::getEmptyContainerReceived).orElse(""))
                 .weight(Optional.ofNullable(request).map(ShipmentEntryRequest::getWeight).orElse(BigDecimal.ZERO))
                 .loadingStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getLoadingStatus).orElse(""))
-                .vgmFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getVgmFilled).orElse(""))
-                .customClearance(Optional.ofNullable(request).map(ShipmentEntryRequest::getCustomClearance).orElse(""))
-                .shippingBillFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getShippingBillFilled).orElse(""))
-                .baeReceived(Optional.ofNullable(request).map(ShipmentEntryRequest::getBaeReceived).orElse(""))
+                .vgmFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getVgmFilled).orElse(Boolean.FALSE))
+                .customClearance(Optional.ofNullable(request).map(ShipmentEntryRequest::getCustomClearance).orElse(Boolean.FALSE))
+                .shippingBillFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getShippingBillFilled).orElse(Boolean.FALSE))
+                .baeReceived(Optional.ofNullable(request).map(ShipmentEntryRequest::getBaeReceived).orElse(Boolean.FALSE))
                 .containerStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getContainerStatus).orElse(""))
-                .blInstructionFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlInstructionFilled).orElse(""))
-                .draftGenerated(Optional.ofNullable(request).map(ShipmentEntryRequest::getDraftGenerated).orElse(""))
+                .blInstructionFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlInstructionFilled).orElse(Boolean.FALSE))
+                .draftGenerated(Optional.ofNullable(request).map(ShipmentEntryRequest::getDraftGenerated).orElse(Boolean.FALSE))
                 .blDraftStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getBlDraftStatus).orElse(""))
                 .containerNo(Optional.ofNullable(request).map(ShipmentEntryRequest::getContainerNo).orElse(""))
                 .sealNumber(Optional.ofNullable(request).map(ShipmentEntryRequest::getSealNumber).orElse(""))
@@ -186,6 +186,7 @@ public class ShipmentDetailsService {
                 .createdDate(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getCreatedDate).orElse(null)))
                 .updatedDate(convertDateString(Optional.ofNullable(request).map(ShipmentEntryRequest::getCreatedDate).orElse(null)))
                 .updatedBy(Optional.ofNullable(request).map(ShipmentEntryRequest::getUpdatedBy).orElse(null))
+                .createdBy(Optional.ofNullable(request).map(ShipmentEntryRequest::getCreatedBy).orElse(null))
                 .build();
 
         shipmentRepository.save(details);
