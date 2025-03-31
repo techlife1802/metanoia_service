@@ -19,7 +19,7 @@ public class ShipmentEntryRequest {
     private String forwarder;
     private String shippingLine;
     private String bookingNumber;
-    private String emptyContainerReceived;
+    private Boolean emptyContainerReceived;
     private BigDecimal weight;
     private String loadingStatus;
     private Boolean vgmFilled;

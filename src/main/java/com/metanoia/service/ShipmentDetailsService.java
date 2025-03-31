@@ -52,7 +52,7 @@ public class ShipmentDetailsService {
             details.setForwarder(Optional.ofNullable(request.getForwarder()).orElse(""));
             details.setShippingLine(Optional.ofNullable(request.getShippingLine()).orElse(""));
             details.setBookingNumber(Optional.ofNullable(request.getBookingNumber()).orElse(""));
-            details.setEmptyContainerReceived(Optional.ofNullable(request.getEmptyContainerReceived()).orElse(""));
+            details.setEmptyContainerReceived(Optional.ofNullable(request.getEmptyContainerReceived()).orElse(Boolean.FALSE));
             details.setWeight(Optional.ofNullable(request.getWeight()).orElse(BigDecimal.ZERO));
             details.setLoadingStatus(Optional.ofNullable(request.getLoadingStatus()).orElse(""));
             details.setVgmFilled(Optional.ofNullable(request.getVgmFilled()).orElse(Boolean.FALSE));
@@ -65,15 +65,15 @@ public class ShipmentDetailsService {
             details.setBlDraftStatus(Optional.ofNullable(request.getBlDraftStatus()).orElse(""));
             details.setBillLandingNumber(Optional.ofNullable(request.getBillLandingNumber()).orElse(0));
             details.setLoadingPicsShared(Optional.ofNullable(request.getLoadingPicsShared()).orElse(Boolean.FALSE));
-            details.setFreightPaid(request.getFreightPaid());
-            details.setSampleReportAvailable(request.getSampleReportAvailable());
-            details.setLoadingPhotosShared(request.getLoadingPhotosShared());
-            details.setSalesInvoiceShared(request.getSalesInvoiceShared());
-            details.setInvoiceGenerated(request.getInvoiceGenerated());
-            details.setBuyerClaimShortage(request.getBuyerClaimShortage());
-            details.setBuyerClaimSettled(request.getBuyerClaimSettled());
-            details.setSupplierClaim(request.getSupplierClaim());
-            details.setSupplierClaimSettled(request.getSupplierClaimSettled());
+            details.setFreightPaid(Optional.ofNullable(request.getFreightPaid()).orElse(Boolean.FALSE));
+            details.setSampleReportAvailable(Optional.ofNullable(request.getSampleReportAvailable()).orElse(Boolean.FALSE));
+            details.setLoadingPhotosShared(Optional.ofNullable(request.getLoadingPhotosShared()).orElse(Boolean.FALSE));
+            details.setSalesInvoiceShared(Optional.ofNullable(request.getSalesInvoiceShared()).orElse(Boolean.FALSE));
+            details.setInvoiceGenerated(Optional.ofNullable(request.getInvoiceGenerated()).orElse(Boolean.FALSE));
+            details.setBuyerClaimShortage(Optional.ofNullable(request.getBuyerClaimShortage()).orElse(Boolean.FALSE));
+            details.setBuyerClaimSettled(Optional.ofNullable(request.getBuyerClaimSettled()).orElse(Boolean.FALSE));
+            details.setSupplierClaim(Optional.ofNullable(request.getSupplierClaim()).orElse(Boolean.FALSE));
+            details.setSupplierClaimSettled(Optional.ofNullable(request.getSupplierClaimSettled()).orElse(Boolean.FALSE));
             details.setMaterialStatus(Optional.ofNullable(request.getMaterialStatus()).orElse(""));
             details.setSupplierName(Optional.ofNullable(request.getSupplierName()).orElse(""));
             details.setSupplierLmePercentage(Optional.ofNullable(request.getSupplierLmePercentage()).orElse(0.0));
@@ -123,7 +123,7 @@ public class ShipmentDetailsService {
                 .forwarder(Optional.ofNullable(request).map(ShipmentEntryRequest::getForwarder).orElse(""))
                 .shippingLine(Optional.ofNullable(request).map(ShipmentEntryRequest::getShippingLine).orElse(""))
                 .bookingNumber(Optional.ofNullable(request).map(ShipmentEntryRequest::getBookingNumber).orElse(""))
-                .emptyContainerReceived(Optional.ofNullable(request).map(ShipmentEntryRequest::getEmptyContainerReceived).orElse(""))
+                .emptyContainerReceived(Optional.ofNullable(request).map(ShipmentEntryRequest::getEmptyContainerReceived).orElse(Boolean.FALSE))
                 .weight(Optional.ofNullable(request).map(ShipmentEntryRequest::getWeight).orElse(BigDecimal.ZERO))
                 .loadingStatus(Optional.ofNullable(request).map(ShipmentEntryRequest::getLoadingStatus).orElse(""))
                 .vgmFilled(Optional.ofNullable(request).map(ShipmentEntryRequest::getVgmFilled).orElse(Boolean.FALSE))
@@ -198,5 +198,11 @@ public class ShipmentDetailsService {
             return LocalDateTime.parse(dateString, formatter);
         }
         return null;
+    }
+
+    public List<ShipmentDetails> getLiveStatus(String starDate, String endDate) {
+        return shipmentRepository.
+                findAllByCreatedDateBetween(convertDateString(
+                        starDate),convertDateString(endDate));
     }
 }

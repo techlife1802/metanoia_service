@@ -170,7 +170,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setDraftGenerated(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "empty_container_received":
-                shipmentDetails.setEmptyContainerReceived((String) value);
+                shipmentDetails.setEmptyContainerReceived((Boolean) value);
                 break;
             case "expected_date_of_arrival":
                 shipmentDetails.setExpectedDateOfArrival(value != null ? ((Timestamp) value).toLocalDateTime() : null);

@@ -47,7 +47,7 @@ public class ShipmentDetails {
     private String sealNumber;
 
     @Column(name = "empty_container_received")
-    private String emptyContainerReceived;
+    private Boolean emptyContainerReceived;
 
     @Column(name = "weight")
     private BigDecimal weight;
