@@ -41,7 +41,8 @@ public class ShipmentDetailsService {
         }
     }
 
-    public void updateShipment(ShipmentEntryRequest request) {
+
+    public synchronized void updateShipment(ShipmentEntryRequest request) {
         Optional<ShipmentDetails> detailsOptional = shipmentRepository.findById(request.getId());
         if (detailsOptional.isPresent()) {
             ShipmentDetails details = detailsOptional.get();
@@ -114,7 +115,7 @@ public class ShipmentDetailsService {
         }
     }
 
-    public void saveShipment(ShipmentEntryRequest request) {
+    public synchronized void saveShipment(ShipmentEntryRequest request) {
         ShipmentDetails details = ShipmentDetails.builder()
                 .commodity(Optional.ofNullable(request).map(ShipmentEntryRequest::getCommodity).orElse(""))
                 .portOfLoading(Optional.ofNullable(request).map(ShipmentEntryRequest::getPortOfLoading).orElse(""))

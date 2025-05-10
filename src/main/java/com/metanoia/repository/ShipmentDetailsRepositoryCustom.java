@@ -170,7 +170,7 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setDraftGenerated(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "empty_container_received":
-                shipmentDetails.setEmptyContainerReceived((Boolean) value);
+                shipmentDetails.setEmptyContainerReceived(value != null ? Boolean.parseBoolean(value.toString()) : null);
                 break;
             case "expected_date_of_arrival":
                 shipmentDetails.setExpectedDateOfArrival(value != null ? ((Timestamp) value).toLocalDateTime() : null);
@@ -272,7 +272,8 @@ public class ShipmentDetailsRepositoryCustom {
                 shipmentDetails.setWeight(value != null ? new BigDecimal(value.toString()) : null);
                 break;
             case "payment_credited":
-                shipmentDetails.setPaymentCredited(value != null ? Boolean.parseBoolean(value.toString()) : null);
+                shipmentDetails.setPaymentCredited(value != null ? (Boolean)value : null);
+                break;
             case "updated_by":
                 shipmentDetails.setUpdatedBy((String) value);
                 break;
