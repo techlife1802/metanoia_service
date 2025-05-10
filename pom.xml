@@ -90,6 +90,12 @@
 			<artifactId>jakarta.xml.bind-api</artifactId>
 			<version>3.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.0.32</version>
+			<scope>runtime</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>javax.xml.bind</groupId>

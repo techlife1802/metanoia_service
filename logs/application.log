@@ -1,3 +1,0 @@
-2025-04-30T00:08:46.442+05:30  INFO 1496 --- [metanoia] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-04-30T00:08:46.445+05:30  INFO 1496 --- [metanoia] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-04-30T00:08:46.796+05:30  INFO 1496 --- [metanoia] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
